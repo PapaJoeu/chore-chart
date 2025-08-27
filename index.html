@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Chore Chart Generator (12×18 print)</title>
+  <link rel="stylesheet" href="styles/chore-chart.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div>
+        <h1>Chore Chart</h1>
+        <div class="daterange" id="daterange">Week of —</div>
+      </div>
+      <div class="controls">
+        <button id="prevSundayBtn" title="Build week starting previous Sunday">Previous Sunday</button>
+        <button id="nextSundayBtn" title="Build week starting upcoming Sunday">Next Sunday</button>
+        <button id="printBtn">Print</button>
+      </div>
+    </header>
+
+    <div class="legend" id="legend"></div>
+
+    <table class="grid" id="grid"></table>
+  </div>
+
+  <script src="data/chore-config.js"></script>
+  <script src="scripts/chore-chart.js"></script>
+</body>
+</html>
