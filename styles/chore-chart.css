@@ -1,5 +1,4 @@
 /* --- Print sizing --- */
-@page { size: 12in 18in; margin: 0.5in; }
 html, body { height: 100%; }
 body {
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
@@ -13,40 +12,40 @@ body {
   width: 100%;
   box-sizing: border-box;
   margin: 0 auto;
-  padding: 0.25in;
+  padding: 1.5rem;
   display: flex;
   flex-direction: column;
-  gap: 0.25in;
+  gap: 1.5rem;
 }
 header { display: flex; justify-content: space-between; align-items: flex-end; gap: 1rem; }
-h1 { font-size: 44pt; line-height: 1; margin: 0; font-weight: 800; letter-spacing: -0.5px; }
-.daterange { font-size: 20pt; font-weight: 600; opacity: 0.85; }
+h1 { font-size: 3.5rem; line-height: 1; margin: 0; font-weight: 800; letter-spacing: -0.03125rem; }
+.daterange { font-size: 1.25rem; font-weight: 600; opacity: 0.85; }
 .controls { display: flex; gap: 0.5rem; flex-wrap: wrap; }
-button { font-size: 16pt; padding: 0.4rem 0.7rem; border-radius: 12px; border: 2px solid #111; background: #f7f7f7; cursor: pointer; }
+button { font-size: 1rem; padding: 0.4rem 0.7rem; border-radius: 0.75rem; border: 0.125rem solid #111; background: #f7f7f7; cursor: pointer; }
 button:hover { background: #eee; }
 
   /* --- Check boxes --- */
   .na-square, .box {
-    width: 80%;
+    width: 1.2em;
     aspect-ratio: 1 / 1;
     display: inline-block;
   }
-  .na-square { border: 2px solid #aaa; background: #e9e9e9; }
-  .box { border: 3px solid #111; }
+  .na-square { border: 0.125rem solid #aaa; background: #e9e9e9; }
+  .box { border: 0.1875rem solid #111; }
 
   /* --- Table --- */
 .grid { width: 100%; border-collapse: collapse; table-layout: fixed; }
-.grid th, .grid td { border: 2px solid #000; }
-.grid thead th { font-size: 18pt; padding: 0.25in 0.15in; background: #f2f2f2; }
-.grid thead .dow { font-weight: 800; font-size: 20pt; display: block; }
-.grid thead .date { font-weight: 600; opacity: 0.9; font-size: 16pt; display: block; }
+.grid th, .grid td { border: 0.125rem solid #000; }
+.grid thead th { font-size: 1.125rem; padding: 1.5rem 0.9rem; background: #f2f2f2; }
+.grid thead .dow { font-weight: 800; font-size: 1.25rem; display: block; }
+.grid thead .date { font-weight: 600; opacity: 0.9; font-size: 1rem; display: block; }
 
   .col-task { width: 40%; }
   .col-day { width: calc(60% / 7); }
 
-  .category-heading { font-size: 22pt; font-weight: 800; padding: 0.2in 0.15in; background: #fafafa; }
-  .spacer { height: 0.15in; border: none; }
-  .task { font-size: 20pt; font-weight: 600; padding: 0.18in 0.12in; }
+  .category-heading { font-size: 1.375rem; font-weight: 800; padding: 1.2rem 0.9rem; background: #fafafa; }
+  .spacer { height: 0.9rem; border: none; }
+  .task { font-size: 1.25rem; font-weight: 600; padding: 1.08rem 0.72rem; }
   .cell { text-align: center; }
   .cell > .box, .cell > .na-square { vertical-align: middle; }
 

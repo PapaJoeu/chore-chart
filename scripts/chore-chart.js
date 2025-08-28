@@ -80,12 +80,6 @@ function buildWeek(start) {
   const cfg = loadConfig();
   const grouped = groupByCategory(cfg.chores);
 
-  // reset width before rebuilding content so measurements are accurate
-  const container = document.querySelector('.container');
-  if (container) {
-    container.style.width = '';
-  }
-
   // header range label
   const range = `${fmtDate(dates[0])} – ${fmtDate(dates[6])}`;
   document.getElementById('daterange').textContent = `Week of ${fmtDate(dates[0])} (${range})`;
@@ -149,20 +143,6 @@ function buildWeek(start) {
   tbl.appendChild(thead);
   tbl.appendChild(tbody);
 
-  // adjust width to maintain the 12×18 aspect ratio based on content height
-  adjustWidthToAspect();
-}
-
-// Adjust the container width to keep a 12×18 (2:3) aspect ratio
-function adjustWidthToAspect() {
-  const container = document.querySelector('.container');
-  if (!container) return;
-
-  // Clear width to measure the natural height
-  container.style.width = '';
-  const rect = container.getBoundingClientRect();
-  const newWidth = rect.height * (12 / 18);
-  container.style.width = `${newWidth}px`;
 }
 
 // ---------- Init & controls ----------
