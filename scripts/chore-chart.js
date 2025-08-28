@@ -80,12 +80,10 @@ function buildWeek(start) {
   const cfg = loadConfig();
   const grouped = groupByCategory(cfg.chores);
 
-  // reset any previous scaling before rebuilding content
+  // reset width before rebuilding content so measurements are accurate
   const container = document.querySelector('.container');
   if (container) {
-    container.style.transform = '';
     container.style.width = '';
-    container.style.height = '';
   }
 
   // header range label
@@ -151,38 +149,20 @@ function buildWeek(start) {
   tbl.appendChild(thead);
   tbl.appendChild(tbody);
 
-  // apply initial scaling so freshly built content fits the target page
-  fitToPage();
+  // adjust width to maintain the 12×18 aspect ratio based on content height
+  adjustWidthToAspect();
 }
 
-// Scale the layout to ensure it fits within the printable 12×18in page
-function getPageLengthInches() {
-  const container = document.querySelector('.container');
-  if (!container) return 0;
-  const rect = container.getBoundingClientRect();
-  return rect.height / 96; // convert px to inches
-}
-
-// Scale the layout so the total height does not exceed 18 inches
-function fitToPage() {
+// Adjust the container width to keep a 12×18 (2:3) aspect ratio
+function adjustWidthToAspect() {
   const container = document.querySelector('.container');
   if (!container) return;
 
-  const heightInches = getPageLengthInches();
+  // Clear width to measure the natural height
+  container.style.width = '';
   const rect = container.getBoundingClientRect();
-  const maxHeightInches = 18;
-
-  if (heightInches > maxHeightInches) {
-    const scale = maxHeightInches / heightInches;
-    container.style.transformOrigin = 'top left';
-    container.style.transform = `scale(${scale})`;
-    container.style.width = `${rect.width * scale}px`;
-    container.style.height = `${rect.height * scale}px`;
-  } else {
-    container.style.transform = '';
-    container.style.width = '';
-    container.style.height = '';
-  }
+  const newWidth = rect.height * (12 / 18);
+  container.style.width = `${newWidth}px`;
 }
 
 // ---------- Init & controls ----------
@@ -194,18 +174,7 @@ function init() {
   prevBtn.addEventListener('click', () => buildWeek(startOfPreviousSunday(new Date())));
   nextBtn.addEventListener('click', () => buildWeek(startOfNextSunday(new Date())));
   printBtn.addEventListener('click', () => {
-    fitToPage();
     window.print();
-  });
-
-  window.addEventListener('beforeprint', fitToPage);
-  window.addEventListener('afterprint', () => {
-    const container = document.querySelector('.container');
-    if (container) {
-      container.style.transform = '';
-      container.style.width = '';
-      container.style.height = '';
-    }
   });
 
   // Prompt-like default build: show both options; do nothing until user clicks.
