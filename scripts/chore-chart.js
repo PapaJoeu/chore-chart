@@ -75,33 +75,6 @@ function groupByCategory(chores) {
   return [...map.entries()].map(([category, items]) => ({ category, items }));
 }
 
-// ---------- Renderers ----------
-function renderLegend(cfg) {
-  const wrap = document.getElementById('legend');
-  wrap.innerHTML = '';
-  const entries = Object.entries(cfg.legend || {});
-  for (const [code, label] of entries) {
-    const el = document.createElement('div');
-    el.className = 'swatch';
-    const sample = document.createElement('span');
-    sample.className = code === 'NA' ? 'na-square' : 'box';
-    el.appendChild(sample);
-    const text = document.createElement('span');
-    text.textContent = `${code} — ${label}`;
-    el.appendChild(text);
-    wrap.appendChild(el);
-  }
-  const na = document.createElement('div');
-  na.className = 'swatch';
-  const naSq = document.createElement('span');
-  naSq.className = 'na-square';
-  na.appendChild(naSq);
-  const naTxt = document.createElement('span');
-  naTxt.textContent = 'N/A';
-  na.appendChild(naTxt);
-  wrap.appendChild(na);
-}
-
 function buildWeek(start) {
   const dates = Array.from({length:7}, (_,i)=> addDays(start, i));
   const cfg = loadConfig();
@@ -111,8 +84,6 @@ function buildWeek(start) {
   const range = `${fmtDate(dates[0])} – ${fmtDate(dates[6])}`;
   document.getElementById('daterange').textContent = `Week of ${fmtDate(dates[0])} (${range})`;
 
-  renderLegend(cfg);
-
   const tbl = document.getElementById('grid');
   tbl.innerHTML = '';
 
@@ -120,7 +91,6 @@ function buildWeek(start) {
   const thead = document.createElement('thead');
   const hr = document.createElement('tr');
 
-  const thCat = document.createElement('th'); thCat.className = 'col-category'; thCat.textContent = 'Category'; hr.appendChild(thCat);
   const thTask = document.createElement('th'); thTask.className = 'col-task'; thTask.textContent = 'Chore'; hr.appendChild(thTask);
 
   for (const d of dates) {
@@ -134,11 +104,26 @@ function buildWeek(start) {
   const tbody = document.createElement('tbody');
 
   grouped.forEach((grp, idx) => {
-    grp.items.forEach((chore, j) => {
-      const tr = document.createElement('tr');
-      if (j === 0) tr.classList.add('sep');
+    if (idx > 0) {
+      const spacer = document.createElement('tr');
+      const spTd = document.createElement('td');
+      spTd.className = 'spacer';
+      spTd.colSpan = dates.length + 1;
+      spacer.appendChild(spTd);
+      tbody.appendChild(spacer);
+    }
 
-      const tdCat = document.createElement('td'); tdCat.className = 'category'; tdCat.textContent = grp.category; tr.appendChild(tdCat);
+    const headingTr = document.createElement('tr');
+    const headingTd = document.createElement('td');
+    headingTd.className = 'category-heading';
+    headingTd.textContent = grp.category;
+    headingTd.colSpan = dates.length + 1;
+    headingTr.appendChild(headingTd);
+    tbody.appendChild(headingTr);
+
+    grp.items.forEach(chore => {
+      const tr = document.createElement('tr');
+
       const tdTask = document.createElement('td'); tdTask.className = 'task'; tdTask.textContent = chore.name; tr.appendChild(tdTask);
 
       dates.forEach(d => {
