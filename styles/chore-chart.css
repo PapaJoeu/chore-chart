@@ -17,30 +17,26 @@ h1 { font-size: 44pt; line-height: 1; margin: 0; font-weight: 800; letter-spacin
 button { font-size: 16pt; padding: 0.4rem 0.7rem; border-radius: 12px; border: 2px solid #111; background: #f7f7f7; cursor: pointer; }
 button:hover { background: #eee; }
 
-/* --- Legend --- */
-.legend { font-size: 16pt; display: flex; gap: 1.2rem; flex-wrap: wrap; }
-.legend .swatch { display: inline-flex; align-items: center; gap: 0.4rem; }
-.na-square { width: 28pt; height: 28pt; border: 2px solid #aaa; background: #e9e9e9; display: inline-block; }
-.box { width: 28pt; height: 28pt; border: 3px solid #111; display: inline-block; }
+  /* --- Check boxes --- */
+  .na-square { width: 28pt; height: 28pt; border: 2px solid #aaa; background: #e9e9e9; display: inline-block; }
+  .box { width: 28pt; height: 28pt; border: 3px solid #111; display: inline-block; }
 
-/* --- Table --- */
+  /* --- Table --- */
 .grid { width: 100%; border-collapse: collapse; table-layout: fixed; }
 .grid th, .grid td { border: 2px solid #000; }
 .grid thead th { font-size: 18pt; padding: 0.25in 0.15in; background: #f2f2f2; }
 .grid thead .dow { font-weight: 800; font-size: 20pt; display: block; }
 .grid thead .date { font-weight: 600; opacity: 0.9; font-size: 16pt; display: block; }
 
-.col-category { width: 16%; }
-.col-task { width: 24%; }
-.col-day { width: calc(60% / 7); }
+  .col-task { width: 40%; }
+  .col-day { width: calc(60% / 7); }
 
-.category { font-size: 22pt; font-weight: 800; padding: 0.2in 0.15in; background: #fafafa; }
-.task { font-size: 20pt; font-weight: 600; padding: 0.18in 0.12in; }
+  .category-heading { font-size: 22pt; font-weight: 800; padding: 0.2in 0.15in; background: #fafafa; }
+  .spacer { height: 0.15in; border: none; }
+  .task { font-size: 20pt; font-weight: 600; padding: 0.18in 0.12in; }
 .cell { height: 34pt; text-align: center; }
 .cell > .box, .cell > .na-square { vertical-align: middle; }
 
-/* thicker separators between categories */
-.sep { border-top: 6px solid #000 !important; }
 
 /* Print optimizations */
 @media print {
