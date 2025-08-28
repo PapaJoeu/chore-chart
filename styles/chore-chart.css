@@ -10,14 +10,13 @@ body {
 
 /* --- Layout --- */
 .container {
-  width: 11in;
+  width: 100%;
   box-sizing: border-box;
   margin: 0 auto;
   padding: 0.25in;
   display: flex;
   flex-direction: column;
   gap: 0.25in;
-  transform-origin: top left;
 }
 header { display: flex; justify-content: space-between; align-items: flex-end; gap: 1rem; }
 h1 { font-size: 44pt; line-height: 1; margin: 0; font-weight: 800; letter-spacing: -0.5px; }
@@ -27,8 +26,13 @@ button { font-size: 16pt; padding: 0.4rem 0.7rem; border-radius: 12px; border: 2
 button:hover { background: #eee; }
 
   /* --- Check boxes --- */
-  .na-square { width: 28pt; height: 28pt; border: 2px solid #aaa; background: #e9e9e9; display: inline-block; }
-  .box { width: 28pt; height: 28pt; border: 3px solid #111; display: inline-block; }
+  .na-square, .box {
+    width: 80%;
+    aspect-ratio: 1 / 1;
+    display: inline-block;
+  }
+  .na-square { border: 2px solid #aaa; background: #e9e9e9; }
+  .box { border: 3px solid #111; }
 
   /* --- Table --- */
 .grid { width: 100%; border-collapse: collapse; table-layout: fixed; }
@@ -43,8 +47,8 @@ button:hover { background: #eee; }
   .category-heading { font-size: 22pt; font-weight: 800; padding: 0.2in 0.15in; background: #fafafa; }
   .spacer { height: 0.15in; border: none; }
   .task { font-size: 20pt; font-weight: 600; padding: 0.18in 0.12in; }
-.cell { height: 34pt; text-align: center; }
-.cell > .box, .cell > .na-square { vertical-align: middle; }
+  .cell { text-align: center; }
+  .cell > .box, .cell > .na-square { vertical-align: middle; }
 
 
 /* Print optimizations */
@@ -54,6 +58,6 @@ button:hover { background: #eee; }
   .container {
     margin: 0;
     padding: 0;
-    width: 11in;
+    width: 100%;
   }
 }
