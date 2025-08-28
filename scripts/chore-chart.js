@@ -82,7 +82,11 @@ function buildWeek(start) {
 
   // reset any previous scaling before rebuilding content
   const container = document.querySelector('.container');
-  if (container) container.style.transform = '';
+  if (container) {
+    container.style.transform = '';
+    container.style.width = '';
+    container.style.height = '';
+  }
 
   // header range label
   const range = `${fmtDate(dates[0])} – ${fmtDate(dates[6])}`;
@@ -152,20 +156,33 @@ function buildWeek(start) {
 }
 
 // Scale the layout to ensure it fits within the printable 12×18in page
+function getPageLengthInches() {
+  const container = document.querySelector('.container');
+  if (!container) return 0;
+  const rect = container.getBoundingClientRect();
+  return rect.height / 96; // convert px to inches
+}
+
+// Scale the layout so the total height does not exceed 18 inches
 function fitToPage() {
   const container = document.querySelector('.container');
   if (!container) return;
 
-  // printable area: page size minus 0.5in margins on each side
-  const printableWidthPx  = (12 - 1) * 96; // 11in * 96 CSS px
-  const printableHeightPx = (18 - 1) * 96; // 17in * 96 CSS px
+  const heightInches = getPageLengthInches();
   const rect = container.getBoundingClientRect();
-  const scale = Math.min(
-    printableWidthPx / rect.width,
-    printableHeightPx / rect.height,
-    1
-  );
-  container.style.transform = scale < 1 ? `scale(${scale})` : '';
+  const maxHeightInches = 18;
+
+  if (heightInches > maxHeightInches) {
+    const scale = maxHeightInches / heightInches;
+    container.style.transformOrigin = 'top left';
+    container.style.transform = `scale(${scale})`;
+    container.style.width = `${rect.width * scale}px`;
+    container.style.height = `${rect.height * scale}px`;
+  } else {
+    container.style.transform = '';
+    container.style.width = '';
+    container.style.height = '';
+  }
 }
 
 // ---------- Init & controls ----------
@@ -184,7 +201,11 @@ function init() {
   window.addEventListener('beforeprint', fitToPage);
   window.addEventListener('afterprint', () => {
     const container = document.querySelector('.container');
-    if (container) container.style.transform = '';
+    if (container) {
+      container.style.transform = '';
+      container.style.width = '';
+      container.style.height = '';
+    }
   });
 
   // Prompt-like default build: show both options; do nothing until user clicks.
