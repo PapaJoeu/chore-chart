@@ -146,6 +146,9 @@ function buildWeek(start) {
   thead.appendChild(hr);
   tbl.appendChild(thead);
   tbl.appendChild(tbody);
+
+  // apply initial scaling so freshly built content fits the target page
+  fitToPage();
 }
 
 // Scale the layout to ensure it fits within the printable 12×18in page
@@ -153,10 +156,15 @@ function fitToPage() {
   const container = document.querySelector('.container');
   if (!container) return;
 
-  // printable height: page height minus 0.5in margins top/bottom
+  // printable area: page size minus 0.5in margins on each side
+  const printableWidthPx  = (12 - 1) * 96; // 11in * 96 CSS px
   const printableHeightPx = (18 - 1) * 96; // 17in * 96 CSS px
   const rect = container.getBoundingClientRect();
-  const scale = Math.min(printableHeightPx / rect.height, 1);
+  const scale = Math.min(
+    printableWidthPx / rect.width,
+    printableHeightPx / rect.height,
+    1
+  );
   container.style.transform = scale < 1 ? `scale(${scale})` : '';
 }
 
@@ -168,7 +176,10 @@ function init() {
 
   prevBtn.addEventListener('click', () => buildWeek(startOfPreviousSunday(new Date())));
   nextBtn.addEventListener('click', () => buildWeek(startOfNextSunday(new Date())));
-  printBtn.addEventListener('click', () => window.print());
+  printBtn.addEventListener('click', () => {
+    fitToPage();
+    window.print();
+  });
 
   window.addEventListener('beforeprint', fitToPage);
   window.addEventListener('afterprint', () => {
