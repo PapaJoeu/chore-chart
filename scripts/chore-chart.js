@@ -80,6 +80,10 @@ function buildWeek(start) {
   const cfg = loadConfig();
   const grouped = groupByCategory(cfg.chores);
 
+  // reset any previous scaling before rebuilding content
+  const container = document.querySelector('.container');
+  if (container) container.style.transform = '';
+
   // header range label
   const range = `${fmtDate(dates[0])} – ${fmtDate(dates[6])}`;
   document.getElementById('daterange').textContent = `Week of ${fmtDate(dates[0])} (${range})`;
@@ -144,6 +148,18 @@ function buildWeek(start) {
   tbl.appendChild(tbody);
 }
 
+// Scale the layout to ensure it fits within the printable 12×18in page
+function fitToPage() {
+  const container = document.querySelector('.container');
+  if (!container) return;
+
+  // printable height: page height minus 0.5in margins top/bottom
+  const printableHeightPx = (18 - 1) * 96; // 17in * 96 CSS px
+  const rect = container.getBoundingClientRect();
+  const scale = Math.min(printableHeightPx / rect.height, 1);
+  container.style.transform = scale < 1 ? `scale(${scale})` : '';
+}
+
 // ---------- Init & controls ----------
 function init() {
   const prevBtn = document.getElementById('prevSundayBtn');
@@ -153,6 +169,12 @@ function init() {
   prevBtn.addEventListener('click', () => buildWeek(startOfPreviousSunday(new Date())));
   nextBtn.addEventListener('click', () => buildWeek(startOfNextSunday(new Date())));
   printBtn.addEventListener('click', () => window.print());
+
+  window.addEventListener('beforeprint', fitToPage);
+  window.addEventListener('afterprint', () => {
+    const container = document.querySelector('.container');
+    if (container) container.style.transform = '';
+  });
 
   // Prompt-like default build: show both options; do nothing until user clicks.
   // For convenience, if you want an automatic default, uncomment one of these:
